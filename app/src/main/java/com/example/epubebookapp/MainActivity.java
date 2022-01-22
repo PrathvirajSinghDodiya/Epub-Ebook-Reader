@@ -2,10 +2,12 @@ package com.example.epubebookapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.epubebookapp.databinding.ActivityMainBinding;
@@ -18,69 +20,59 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    ActivityMainBinding binding;
-
+    private List<File> pdflist;
+    public TextView textView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        runtimepermission();
-
-
-
-
-
+        setContentView(R.layout.activity_main);
+        textView = findViewById(R.id.txtview);
+        permission();
 
     }
-    // runtime permission function by hemant vishwakarma
-      private void runtimepermission()
+    public void permission()
     {
-        Dexter.withContext(this)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override public void onPermissionGranted(PermissionGrantedResponse response)
-                    {
-                        ArrayList<File> Filename = findpdf(Environment.getExternalStorageDirectory());
+        Dexter.withContext(MainActivity.this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                pdflist = new ArrayList<>();
+                pdflist.addAll(findpdf(Environment.getExternalStorageDirectory()));
+                textView.setText(""+ pdflist);    //textview of pdf list
+            }
 
-                        binding.RecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3,GridLayoutManager.VERTICAL,false));
-                        adapter t = new adapter(getApplicationContext(),Filename);
-                        //set adapter in recycler view
-                        binding.RecycleView.setAdapter(t);
-                     }
-                    @Override public void onPermissionDenied(PermissionDeniedResponse response)
-                    {
-                        finish();
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
 
-                    }
-                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token)
-                    {
-                     token.continuePermissionRequest();
-                    }
-                }).check();
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                permissionToken.continuePermissionRequest();
+            }
+        }).check();
     }
-      // pdf reader function by hemant vishwakarma
-     public ArrayList<File> findpdf(File file) {
-         ArrayList<File> arrayList = new ArrayList<>();
-         File[] files = file.listFiles();
-         if(files!=null){
-         for (File singlefile : files) {
-             if (singlefile.isDirectory() && !singlefile.isHidden()) {
-                 arrayList.addAll(findpdf(singlefile));
-             } else {
-                 if (singlefile.getName().endsWith(".pdf") && !singlefile.getName().startsWith(".")) {
-                     arrayList.add(singlefile);
-                 }
-             }
-         }
-     }
+    public ArrayList<File> findpdf(File file) {
+        ArrayList<File> arrayList = new ArrayList<>();
+        File[] files = file.listFiles();
+
+
+
+        for (File s : files) {
+            if (s.isDirectory() && !s.isHidden()) {
+                arrayList.addAll(findpdf(s));
+            } else {
+                if (s.getName().endsWith(".pdf") ) {
+                    arrayList.add(s);
+
+                }
+            }
+        }
+
         return  arrayList;
     }
-
 
 
 
