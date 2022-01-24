@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<File> pdflist;
 
     RecyclerView recyclerView;
-    public static int REQUEST_PERMISSIONS = 1;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
