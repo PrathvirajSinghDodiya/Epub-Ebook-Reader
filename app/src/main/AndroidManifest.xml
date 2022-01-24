@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EpubEbookApp">
-        <activity android:name=".EpubActivity"></activity>
+        <activity android:name=".EpubActivity"
+            android:hardwareAccelerated="true">
+        </activity>
         <activity
             android:name=".SplashScreenActivity.SplashScreenActivity"
             android:exported="true">
