@@ -15,4 +15,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    
+    /*  listview
+     <ListView
+        android:id="@+id/lv_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:divider="#efefef"
+        android:dividerHeight="5dp">
+
+    </ListView>
+    */
 </androidx.constraintlayout.widget.ConstraintLayout>
