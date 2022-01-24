@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.listV);
 
-        Dexter.withContext(getApplicationContext()).withPermission(Manifest.permission.MANAGE_EXTERNAL_STORAGE).withListener(new PermissionListener() {
+        Dexter.withContext(getApplicationContext()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 pdflist = new ArrayList<>();
