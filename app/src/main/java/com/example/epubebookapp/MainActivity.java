@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +27,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private List<File> pdflist;
     public TextView textView ;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.txtview);
+        listView = findViewById(R.id.listV);
         permission();
 
     }
@@ -40,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 pdflist = new ArrayList<>();
                 pdflist.addAll(findpdf(Environment.getExternalStorageDirectory()));
-                textView.setText(""+ pdflist);    //textview of pdf list
+
+                ArrayAdapter<String> Adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,pdflist);
+                listView.setAdapter(Adapter);
             }
 
             @Override
@@ -54,24 +59,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }).check();
     }
-    public ArrayList<File> findpdf(File file) {
-        ArrayList<File> arrayList = new ArrayList<>();
-        File[] files = file.listFiles();
-
-
-
-        for (File s : files) {
-            if (s.isDirectory() && !s.isHidden()) {
-                arrayList.addAll(findpdf(s));
-            } else {
-                if (s.getName().endsWith(".pdf") ) {
-                    arrayList.add(s);
-
+    public ArrayList<File> findpdf(File file){
+        ArrayList allpdf = new ArrayList();
+        File[] newFile = file.listFiles();
+        if(newFile != null){
+            for(File file2: newFile){
+                if(!file2.isHidden() && file2.isDirectory()){
+                    allpdf.addAll(findpdf(file2));
+                }
+                else{
+                    if(file2.getName().endsWith(".pdf") ){
+                        allpdf.add(file2);
+                        Toast.makeText(getApplicationContext(), "see:- "+file2.getName(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
-
-        return  arrayList;
+        return allpdf;
     }
 
 
