@@ -2,12 +2,15 @@ package com.example.epubebookapp.SplashScreenActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+
 import com.example.epubebookapp.MainActivity;
 import com.example.epubebookapp.R;
+
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -27,4 +30,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         },2000);
     }
+
+
 }
